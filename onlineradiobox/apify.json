@@ -1,0 +1,11 @@
+{
+	"name": "onlineradiobox",
+	"version": "0.0",
+	"buildTag": "latest",
+	"env": {
+		"userId": "HKsZ47jD4zytw225x",
+		"apifyToken": "YNg8N66P9eTjXXNd3foXNXxwR",
+		"proxyPswd": "zYmvWEaWaywSYsK2gvCoPLB3d"
+	},
+	"template": "project_empty"
+}

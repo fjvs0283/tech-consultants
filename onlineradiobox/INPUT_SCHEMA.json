@@ -1,0 +1,26 @@
+{
+    "title": "PuppeteerCrawler Template",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "countries": {
+            "title": "countries",
+            "type": "array",
+            "description": "Radio Station Countries",
+            "editor": "stringList",
+            "prefill": [""]
+        },
+        "maxStations": {
+            "title": "max stations",
+            "type": "string",
+            "description": "Maximum number of stations",
+            "editor": "textfield"
+        },
+        "includeAdditionalInfo": {
+            "title": "include additional info",
+            "type": "boolean",
+            "description": "Include additional info",
+            "default": true
+        }
+    }
+}
