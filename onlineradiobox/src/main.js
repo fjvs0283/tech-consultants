@@ -6,8 +6,8 @@ const { utils: { log } } = Apify;
 
 Apify.main(async () => {
 
-    const { countries, maxStations, includeAdditionalInfo } = await Apify.getInput()
-    const inputData = { countries, maxStations, includeAdditionalInfo }
+    const { countries, maxStations, genres, includeAdditionalInfo } = await Apify.getInput()
+    const inputData = { countries, genres, maxStations, includeAdditionalInfo }
 
 
 
@@ -17,9 +17,6 @@ Apify.main(async () => {
             label: LabelTypes.START,
         },
     };
-    
-    
-    
     
     const requestQueue = await Apify.openRequestQueue();
     await requestQueue.addRequest(startUrl);

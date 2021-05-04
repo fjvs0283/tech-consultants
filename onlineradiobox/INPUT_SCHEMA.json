@@ -10,6 +10,13 @@
             "editor": "stringList",
             "prefill": [""]
         },
+        "genres": {
+            "title": "genres",
+            "type": "array",
+            "description": "Radio Station Genres",
+            "editor": "stringList",
+            "prefill": [""]
+        },
         "maxStations": {
             "title": "max stations",
             "type": "string",

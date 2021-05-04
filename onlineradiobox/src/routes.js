@@ -25,31 +25,45 @@ exports.handleStart = async ({ request, $ }, requestQueue) => {
     }
 };
 
-
-// TODO: needs to be corrected to iterate
 exports.handlePagination = async ({ $ }, requestQueue, inputData) => {
     $('.stations__station').each(async (index, element) => {
 
+        const countries = inputData.countries.map(item => item.toLowerCase());
+        const genres = inputData.genres.map(item => item.toLowerCase());
+
         const stationName = $(element).find('.stations__station__title > a > .station__title__name').text().trim();
         const stationCountry = $(element).find('.stations__station__info > li > a').attr('title');
-        const countries = inputData.countries.map(item => item.toLowerCase());
 
-        log.info(`${index + 1}`);
-        log.info(`this is the extracted country: ${stationCountry}`);
+        const stationGenres = [];
+        $(element).find('.stations__station__tags li').each(async (index, element) => {
+            const genre = $(element).find('a').text().trim();
+            stationGenres.push(genre);
+        });
 
-        if (countries.includes(stationCountry.toLowerCase())) {
+        function findCommonElements3(arr1, arr2) {
+            return arr1.some(item => arr2.includes(item))
+        }
 
-            const href = $(element).find('.stations__station__title > a').attr('href');
-            const url = BASE_URL + href;
+        if (countries.includes(stationCountry.toLowerCase()) || countries.length == 0) {
+            log.info('station genres: ', stationGenres);
+            log.info('genre: ', genres[0]);
 
-            await requestQueue.addRequest({
-                url: url,
-                userData: {
-                    label: LabelTypes.DETAIL,
-                },
-            });
+            // TODO: update this to match more than 1 genre in both arrays
+            if (stationGenres.includes(genres[0])) {
+
+                const href = $(element).find('.stations__station__title > a').attr('href');
+                const url = BASE_URL + href;
+
+                await requestQueue.addRequest({
+                    url: url,
+                    userData: {
+                        label: LabelTypes.DETAIL,
+                    },
+                });
+
+            }
         } else {
-            log.info(`${stationCountry} not found in input list`);
+            // log.info(`${stationCountry} not found in input list`);
         }
     });
 };
@@ -61,8 +75,8 @@ exports.handleDetail = async ({ request, $ }) => {
     const country = $('.navbar__countries > a').text().trim() || '';
 
     const genresList = [];
-    $('.stations__station__tags').find('li > a').each(async (index, element) => {
-        const genre = $(element).text().trim();
+    $('.station__tags li').each(async (index, element) => {
+        const genre = $(element).find('a').text().trim();
         genresList.push(genre);
     });
 
@@ -105,27 +119,27 @@ exports.handleDetail = async ({ request, $ }) => {
 
         }
     });
-
-    log.info(`station name: ${name}`);
-    log.info(`country: ${country}`);
-    log.info(`genres: ${genresList}`);
-    log.info(`rating: ${rating}`);
-    log.info(`reviews: ${reviews}`);
-    log.info(`likes: ${likes}`);
-    log.info(`liveListeners: ${liveListeners}`);
-    log.info(`website: ${website}`);
-    log.info(`address: ${address}`);
-    log.info(`telephone: ${telephone}`);
-    log.info(`email: ${email}`);
-    log.info(`facebook: ${facebook}`);
-    log.info(`twitter: ${twitter}`);
-    log.info(`instagram: ${instagram}`);
-    log.info(`youTube: ${youTube}`);
-    log.info(`whatsApp: ${whatsApp}`);
-    log.info(`wikipedia: ${wikipedia}`);
-    log.info(`additional details: ${details}`);
-    log.info('––––––––––––––––––––––––––––––––––––––––––––––––––––––––––');
-
+    /*
+        log.info(`station name: ${name}`);
+        log.info(`country: ${country}`);
+        log.info(`genres: ${genresList}`);
+        log.info(`rating: ${rating}`);
+        log.info(`reviews: ${reviews}`);
+        log.info(`likes: ${likes}`);
+        log.info(`liveListeners: ${liveListeners}`);
+        log.info(`website: ${website}`);
+        log.info(`address: ${address}`);
+        log.info(`telephone: ${telephone}`);
+        log.info(`email: ${email}`);
+        log.info(`facebook: ${facebook}`);
+        log.info(`twitter: ${twitter}`);
+        log.info(`instagram: ${instagram}`);
+        log.info(`youTube: ${youTube}`);
+        log.info(`whatsApp: ${whatsApp}`);
+        log.info(`wikipedia: ${wikipedia}`);
+        log.info(`additional details: ${details}`);
+        log.info('––––––––––––––––––––––––––––––––––––––––––––––––––––––––––');
+    */
     await Apify.pushData({
         name,
         url,
