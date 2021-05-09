@@ -6,10 +6,8 @@ const { utils: { log } } = Apify;
 
 Apify.main(async () => {
 
-    const { countries, maxStations, genres, includeAdditionalInfo } = await Apify.getInput()
+    const { countries, genres, maxStations, includeAdditionalInfo } = await Apify.getInput()
     const inputData = { countries, genres, maxStations, includeAdditionalInfo }
-
-
 
     const startUrl = {
         url: 'https://onlineradiobox.com/genre/pop-/?cs=be.nostalgiebelgique',
